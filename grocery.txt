@@ -1,6 +1,0 @@
-ID    NAME       PRICE      CATEGORY  
-----------------------------------------
-1     rice       120        grocery   
-2     sugar      220        grocery   
-3     wheat      320        grocery   
-4     cereal     420        grocery   
