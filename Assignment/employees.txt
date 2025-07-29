@@ -1,0 +1,4 @@
+ID001|John Doe|Manager|50000
+ID002|Jane Smith|Developer|45000
+ID003|Bob Johnson|Analyst|40000
+ID004|Alice Brown|Designer|42000
