@@ -1,0 +1,30 @@
+[
+    {
+        "account_holder": "Kushal Bhusal ",
+        "account_number": "ACC002",
+        "balance": 20000.0,
+        "transaction_history": [
+            {
+                "timestamp": "2025-08-16T18:59:52.783044",
+                "type": "ACCOUNT_CREATED",
+                "amount": 20000.0,
+                "balance": 20000.0,
+                "description": "Account created with initial balance"
+            }
+        ]
+    },
+    {
+        "account_holder": "Nischal Bhusal",
+        "account_number": "ACC001",
+        "balance": 555500.0,
+        "transaction_history": [
+            {
+                "timestamp": "2025-08-16T19:00:58.856813",
+                "type": "ACCOUNT_CREATED",
+                "amount": 555500.0,
+                "balance": 555500.0,
+                "description": "Account created with initial balance"
+            }
+        ]
+    }
+]

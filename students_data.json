@@ -1,0 +1,152 @@
+[
+    {
+        "id": 1,
+        "name": "Sita Kumari",
+        "marks": [
+            85
+        ],
+        "total_marks": 85,
+        "average_marks": 85.0,
+        "grade": "A (Very Good)"
+    },
+    {
+        "id": 2,
+        "name": "Ram Thapa",
+        "marks": [
+            78,
+            82,
+            90,
+            75,
+            88
+        ],
+        "total_marks": 413,
+        "average_marks": 82.6,
+        "grade": "A (Very Good)"
+    },
+    {
+        "id": 3,
+        "name": "Gita Koirala",
+        "marks": [
+            92,
+            95,
+            88,
+            91,
+            94
+        ],
+        "total_marks": 460,
+        "average_marks": 92.0,
+        "grade": "A+ (Excellent)"
+    },
+    {
+        "id": 4,
+        "name": "Hari Poudel",
+        "marks": [
+            88,
+            76,
+            90
+        ],
+        "total_marks": 254,
+        "average_marks": 84.66666666666667,
+        "grade": "A (Very Good)"
+    },
+    {
+        "id": 5,
+        "name": "Hari pd Poudel",
+        "marks": [
+            88,
+            76,
+            90
+        ],
+        "total_marks": 254,
+        "average_marks": 84.66666666666667,
+        "grade": "A (Very Good)"
+    },
+    {
+        "id": 6,
+        "name": "Harihar Poudel",
+        "marks": [
+            88,
+            76,
+            90
+        ],
+        "total_marks": 254,
+        "average_marks": 84.66666666666667,
+        "grade": "A (Very Good)"
+    },
+    {
+        "id": 7,
+        "name": "krishna Poudel",
+        "marks": [
+            88,
+            76,
+            90
+        ],
+        "total_marks": 254,
+        "average_marks": 84.66666666666667,
+        "grade": "A (Very Good)"
+    },
+    {
+        "id": 8,
+        "name": "Singham Poudel",
+        "marks": [
+            88,
+            76,
+            90
+        ],
+        "total_marks": 254,
+        "average_marks": 84.66666666666667,
+        "grade": "A (Very Good)"
+    },
+    {
+        "id": 9,
+        "name": "kiran Kc",
+        "marks": [
+            88,
+            76,
+            90
+        ],
+        "total_marks": 254,
+        "average_marks": 84.66666666666667,
+        "grade": "A (Very Good)"
+    },
+    {
+        "id": 10,
+        "name": "Pradip Sanjel",
+        "marks": [
+            88,
+            76,
+            90
+        ],
+        "total_marks": 254,
+        "average_marks": 84.66666666666667,
+        "grade": "A (Very Good)"
+    },
+    {
+        "id": 11,
+        "name": "Nischal Bhusal",
+        "marks": [
+            99,
+            99,
+            99,
+            99,
+            99
+        ],
+        "total_marks": 495,
+        "average_marks": 99.0,
+        "grade": "A+ (Excellent)"
+    },
+    {
+        "id": 12,
+        "name": "Kushal Bhusal",
+        "marks": [
+            98,
+            98,
+            98,
+            99,
+            100
+        ],
+        "total_marks": 493,
+        "average_marks": 98.6,
+        "grade": "A+ (Excellent)"
+    }
+]

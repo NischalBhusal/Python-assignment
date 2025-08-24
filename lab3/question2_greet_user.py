@@ -9,4 +9,4 @@ def greet_user(name):
     print(f"Hello, {name}! Welcome to Python.")
 
 # Call the function with a sample name
-greet_user("Alice")
+greet_user("Nischal")

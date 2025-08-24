@@ -1,3 +1,5 @@
+import json
+
 # Question 1: Book Class with Constructor and Methods
 # Create a class Book with attributes title, author, and price
 
@@ -23,7 +25,7 @@ class Book:
         print("-" * 30)
         print(f"Title: {self.title}")
         print(f"Author: {self.author}")
-        print(f"Price: ${self.price:.2f}")
+        print(f"Price: NPR {self.price:.2f}")
         print("-" * 30)
     
     def update_price(self, new_price):
@@ -39,8 +41,8 @@ class Book:
         old_price = self.price
         self.price = new_price
         print(f" Price updated for '{self.title}':")
-        print(f"   Old Price: ${old_price:.2f}")
-        print(f"   New Price: ${self.price:.2f}")
+        print(f"   Old Price: NPR {old_price:.2f}")
+        print(f"   New Price: NPR {self.price:.2f}")
         return True
     
     def get_formatted_info(self):
@@ -49,7 +51,7 @@ class Book:
         Returns:
             str: Formatted book information
         """
-        return f"'{self.title}' by {self.author} - ${self.price:.2f}"
+        return f"'{self.title}' by {self.author} - NPR {self.price:.2f}"
     
     def apply_discount(self, discount_percent):
         """
@@ -66,127 +68,89 @@ class Book:
         self.price = old_price - discount_amount
         
         print(f" Discount applied to '{self.title}':")
-        print(f"   Original Price: ${old_price:.2f}")
+        print(f"   Original Price: NPR {old_price:.2f}")
         print(f"   Discount: {discount_percent}% (${discount_amount:.2f})")
-        print(f"   Final Price: ${self.price:.2f}")
+        print(f"   Final Price: NPR {self.price:.2f}")
         return True
     
     def __str__(self):
         """
         String representation of the Book object
         """
-        return f"Book('{self.title}', '{self.author}', ${self.price:.2f})"
+        return f"Book('{self.title}', '{self.author}', NPR {self.price:.2f})"
+
+def save_books_to_file(books, filename="books_data.json"):
+    """
+    Save book data to a JSON file
+    Args:
+        books (list): List of Book objects
+        filename (str): Name of the file to save data (default: "books_data.json")
+    """
+    data = [
+        {
+            "title": book.title,
+            "author": book.author,
+            "price": book.price
+        } for book in books
+    ]
+    with open(filename, "w", encoding="utf-8") as file:
+        json.dump(data, file, ensure_ascii=False, indent=4)
+
+def load_books_from_file(filename="books_data.json"):
+    """
+    Load book data from a JSON file
+    Args:
+        filename (str): Name of the file to load data from (default: "books_data.json")
+    Returns:
+        list: List of Book objects
+    """
+    books = []
+    try:
+        with open(filename, "r", encoding="utf-8") as file:
+            content = file.read().strip()
+            if content:  # Check if the file is not empty
+                data = json.loads(content)
+                for item in data:
+                    books.append(Book(item["title"], item["author"], item["price"]))
+    except FileNotFoundError:
+        print("No previous book data found. Starting fresh.")
+    except json.JSONDecodeError:
+        print("Corrupted or empty data found in the file. Starting fresh.")
+    return books
 
 # Demonstration and Testing
 if __name__ == "__main__":
-    print("=" * 50)
-    print("QUESTION 1: BOOK CLASS DEMONSTRATION")
-    print("=" * 50)
-    
-    # 1. Create Book object with sample data
-    print("\n1. Creating Book objects with sample data:")
-    book1 = Book("The Great Gatsby", "F. Scott Fitzgerald", 12.99)
-    book2 = Book("To Kill a Mockingbird", "Harper Lee", 14.50)
-    book3 = Book("1984", "George Orwell", 13.25)
-    
-    # 2. Display book information using display_info() method
-    print("\n2. Displaying book information:")
-    book1.display_info()
-    book2.display_info()
-    book3.display_info()
-    
-    # 3. Update price using update_price() method
-    print("\n3. Updating book prices:")
-    book1.update_price(15.99)
-    book2.update_price(16.75)
-    
-    # Display updated information
-    print("\n4. Displaying updated information:")
-    book1.display_info()
-    book2.display_info()
-    
-    # 4. Additional demonstrations
-    print("\n5. Additional features:")
-    
-    # Apply discount
-    book3.apply_discount(20)  # 20% discount
-    book3.display_info()
-    
-    # String representation
-    print("\n6. String representations:")
-    print(f"Book 1: {book1}")
-    print(f"Book 2: {book2}")
-    print(f"Book 3: {book3}")
-    
-    # Formatted info
-    print("\n7. Formatted information:")
-    print(f" {book1.get_formatted_info()}")
-    print(f" {book2.get_formatted_info()}")
-    print(f" {book3.get_formatted_info()}")
-    
-    # 5. Interactive example
-    print("\n8. Interactive Book Creation:")
-    try:
-        print("Create your own book:")
-        title = input("Enter book title: ").strip()
-        author = input("Enter author name: ").strip()
-        price = float(input("Enter book price: $"))
-        
-        if title and author and price >= 0:
-            user_book = Book(title, author, price)
-            user_book.display_info()
-            
-            # Ask for price update
-            update_choice = input("\nWould you like to update the price? (y/n): ").lower()
-            if update_choice == 'y':
-                new_price = float(input("Enter new price: $"))
-                user_book.update_price(new_price)
-                user_book.display_info()
-                
-            # Ask for discount
-            discount_choice = input("\nWould you like to apply a discount? (y/n): ").lower()
-            if discount_choice == 'y':
-                discount = float(input("Enter discount percentage (0-100): "))
-                user_book.apply_discount(discount)
-                user_book.display_info()
+    print("=" * 30)
+    print("BOOK CLASS DEMO")
+    print("=" * 30)
+
+    # Load existing books
+    books = load_books_from_file()
+
+    while True:
+        print("\n1. Add Book | 2. View Books | 3. Exit")
+        choice = input("Enter choice: ")
+
+        if choice == "1":
+            title = input("Enter book title: ")
+            author = input("Enter author name: ")
+            price = float(input("Enter book price: "))
+            new_book = Book(title, author, price)
+            books.append(new_book)
+            save_books_to_file(books)
+            print("Book added successfully!")
+
+        elif choice == "2":
+            if not books:
+                print("No books available.")
+            else:
+                print("\nBooks in the collection:")
+                for book in books:
+                    print(book.get_formatted_info())
+
+        elif choice == "3":
+            print("Exiting... Goodbye!")
+            break
+
         else:
-            print(" Invalid input. Please provide valid title, author, and non-negative price.")
-            
-    except ValueError:
-        print(" Invalid input. Please enter numeric values for price.")
-    except EOFError:
-        print(" No input available. Creating demonstration book instead...")
-        # Create a demonstration book when no input is available
-        demo_book = Book("The Catcher in the Rye", "J.D. Salinger", 11.99)
-        demo_book.display_info()
-        print("Demonstrating price update:")
-        demo_book.update_price(13.50)
-        demo_book.display_info()
-    except KeyboardInterrupt:
-        print("\n\n Book creation cancelled.")
-    
-    # 6. Comparison and collection
-    print("\n9. Book Collection Management:")
-    book_collection = [book1, book2, book3]
-    
-    print(" Your Book Collection:")
-    total_value = 0
-    for i, book in enumerate(book_collection, 1):
-        print(f"{i}. {book.get_formatted_info()}")
-        total_value += book.price
-    
-    print(f"\n Total Collection Value: ${total_value:.2f}")
-    print(f" Average Book Price: ${total_value / len(book_collection):.2f}")
-    
-    # Find most expensive book
-    most_expensive = max(book_collection, key=lambda b: b.price)
-    print(f" Most Expensive: {most_expensive.get_formatted_info()}")
-    
-    # Find cheapest book
-    cheapest = min(book_collection, key=lambda b: b.price)
-    print(f" Cheapest: {cheapest.get_formatted_info()}")
-    
-    print("\n" + "=" * 50)
-    print("BOOK CLASS DEMONSTRATION COMPLETED!")
-    print("Key Concepts: Constructor, Methods, Object Creation, Self Parameter")
-    print("=" * 50)
+            print("Invalid choice. Please try again.")
