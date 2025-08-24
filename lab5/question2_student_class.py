@@ -1,3 +1,5 @@
+import json
+
 # Question 2: Student Class with Multiple Objects
 # Create a class Student with attributes name and marks, create three objects and display details
 
@@ -162,114 +164,66 @@ class Student:
             print(" Invalid marks format. Creating student with no marks.")
             return cls(name, [])
 
-# Demonstration and Testing
-if __name__ == "__main__":
-    print("=" * 50)
-    print("QUESTION 2: STUDENT CLASS DEMONSTRATION")
-    print("=" * 50)
-    
-    # 1. Create three Student objects as required
-    print("\n1. Creating three Student objects:")
-    
-    # Student 1 - Single subject
-    student1 = Student("Alice Johnson", 85)
-    
-    # Student 2 - Multiple subjects
-    student2 = Student("Bob Smith", [78, 82, 90, 75, 88])
-    
-    # Student 3 - Multiple subjects with different performance
-    student3 = Student("Charlie Brown", [92, 95, 88, 91, 94])
-    
-    # 2. Display details of all three students using show_details() method
-    print("\n2. Displaying details of all three students:")
-    student1.show_details()
-    student2.show_details()
-    student3.show_details()
-    
-    # 3. Additional demonstrations
-    print("\n3. Additional Student Operations:")
-    
-    # Add more marks to student1
-    print("Adding more marks to Alice:")
-    student1.add_mark(90)
-    student1.add_mark(87)
-    student1.add_mark(92)
-    student1.show_details()
-    
-    # Update student name
-    print("\nUpdating student name:")
-    student2.update_name("Robert Smith")
-    student2.show_details()
-    
-    # 4. Class-level operations
-    print(f"\n4. Class Statistics:")
-    print(f"Total students created: {Student.get_total_students()}")
-    
-    # 5. Student comparison
-    print("\n5. Student Performance Comparison:")
-    students = [student1, student2, student3]
-    
-    print(" Performance Summary:")
-    print(f"{'Name':<15} {'Total':<8} {'Average':<8} {'Grade':<15} {'Status'}")
-    print("-" * 60)
-    
-    for student in students:
-        total = student.get_total_marks()
-        average = student.get_average_marks()
-        grade = student.calculate_grade(average)
-        status = "PASS" if student.is_passing() else "FAIL"
-        print(f"{student.name:<15} {total:<8.1f} {average:<8.1f} {grade:<15} {status}")
-    
-    # Find top performer
-    top_student = max(students, key=lambda s: s.get_average_marks())
-    print(f"\n Top Performer: {top_student.name} (Average: {top_student.get_average_marks():.1f})")
-    
-    # Find student with most subjects
-    most_subjects = max(students, key=lambda s: len(s.marks))
-    print(f" Most Subjects: {most_subjects.name} ({len(most_subjects.marks)} subjects)")
-    
-    # Class average
-    class_average = sum(s.get_average_marks() for s in students) / len(students)
-    print(f" Class Average: {class_average:.2f}")
-    
-    # 6. Interactive student creation
-    print("\n6. Interactive Student Creation:")
+# Simplified output formatting
+def beautify_output():
+    print("=" * 40)
+    print("STUDENT MANAGEMENT SYSTEM")
+    print("=" * 40)
+
+# Save student data to a JSON file
+def save_students_to_file(students, filename="students_data.json"):
+    """Save student data to a JSON file."""
+    data = [
+        {
+            "id": student.student_id,
+            "name": student.name,
+            "marks": student.marks,
+            "total_marks": student.get_total_marks(),
+            "average_marks": student.get_average_marks(),
+            "grade": student.calculate_grade(student.get_average_marks())
+        }
+        for student in students
+    ]
+    with open(filename, "w", encoding="utf-8") as file:
+        json.dump(data, file, indent=4, ensure_ascii=False)
+
+# Load student data from a JSON file
+def load_students_from_file(filename="students_data.json"):
+    """Load student data from a JSON file."""
     try:
-        create_more = input("Would you like to create another student? (y/n): ").lower()
-        if create_more == 'y':
-            new_student = Student.create_student_from_input()
-            new_student.show_details()
-            
-            # Add to comparison
+        with open(filename, "r", encoding="utf-8") as file:
+            data = json.load(file)
+            return [Student(d["name"], d["marks"]) for d in data]
+    except FileNotFoundError:
+        return []
+
+# Main demonstration
+if __name__ == "__main__":
+    beautify_output()
+
+    # Load existing students or start fresh
+    students = load_students_from_file()
+
+    while True:
+        print("\n1. Add Student")
+        print("2. View Students")
+        print("3. Exit")
+        choice = input("Enter your choice: ")
+
+        if choice == "1":
+            name = input("Enter student name: ")
+            marks = list(map(int, input("Enter marks (space-separated): ").split()))
+            new_student = Student(name, marks)
             students.append(new_student)
-            print(f"\nUpdated class size: {len(students)} students")
-            print(f"New class average: {sum(s.get_average_marks() for s in students) / len(students):.2f}")
-            
-    except KeyboardInterrupt:
-        print("\n\nStudent creation cancelled.")
-    
-    # 7. String representations
-    print("\n7. Student Objects Summary:")
-    for i, student in enumerate(students, 1):
-        print(f"{i}. {student}")
-    
-    # 8. Passing/Failing analysis
-    print("\n8. Academic Performance Analysis:")
-    passing_students = [s for s in students if s.is_passing()]
-    failing_students = [s for s in students if not s.is_passing()]
-    
-    print(f" Passing Students: {len(passing_students)}")
-    for student in passing_students:
-        print(f"   - {student.name} (Avg: {student.get_average_marks():.1f})")
-    
-    if failing_students:
-        print(f" Failing Students: {len(failing_students)}")
-        for student in failing_students:
-            print(f"   - {student.name} (Avg: {student.get_average_marks():.1f})")
-    else:
-        print(" All students are passing!")
-    
-    print("\n" + "=" * 50)
-    print("STUDENT CLASS DEMONSTRATION COMPLETED!")
-    print("Key Concepts: Multiple Objects, Class Variables, Methods, Comparison")
-    print("=" * 50)
+            save_students_to_file(students)
+        elif choice == "2":
+            if not students:
+                print("No students available.")
+            else:
+                for student in students:
+                    print(f"{student.name}: Total={student.get_total_marks()}, Avg={student.get_average_marks():.2f}")
+        elif choice == "3":
+            print("Exiting... Goodbye!")
+            break
+        else:
+            print("Invalid choice. Try again.")
